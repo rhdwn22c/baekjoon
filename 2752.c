@@ -16,6 +16,6 @@ int main() {
             }
         }
     }
-    printf("%d", abc[1]);
+    printf("%d %d %d", abc[0], abc[1], abc[2]);
 
 }

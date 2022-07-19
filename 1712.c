@@ -4,14 +4,11 @@ int main() {
     int a, b, c;
 
     scanf("%d %d %d", &a, &b, &c);
-    for(int i = 0; ; i++) {
-        if(a + b * i < c * i) {
-            printf("%d", i);
-            break;
-        }
-        else {
-            printf("-1");
-            break;
-        }
+    if (b >= c) {
+        printf("-1");
     }
+    else {
+        printf("%d\n", a / (c - b) + 1);
+    }
+    
 }
