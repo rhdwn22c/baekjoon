@@ -21,4 +21,4 @@ int main() {
 
     }
     printf("%d", cnt);
-}
+}   
