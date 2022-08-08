@@ -19,7 +19,7 @@ int compare(const void *a, const void *b){
 int main(){
     int N, min = 0, max = 0;
     scanf("%d", &N);
-    Str s[N] = { 0,};
+    Str s[100000];
     for (int i = 0; i < N; i++){
         scanf("%s", s[i].str);
         s[i].len = strlen(s[i].str);
