@@ -7,7 +7,7 @@ typedef struct {
     int len;
 }Str;
 
-int compare(const void *a, const void *b){
+int cpr(const void *a, const void *b){
     Str s1 = *(Str*)a, s2 = *(Str*)b;
     if (s1.len < s2.len)
         return -1;
@@ -25,7 +25,7 @@ int main(){
         s[i].len = strlen(s[i].str);
     }
     
-    qsort(s, N, sizeof(Str), compare);
+    qsort(s, N, sizeof(Str), cpr);
     puts(s[0].str);
     for (int i = 1; i < N; i++)
         if (strcmp(s[i-1].str, s[i].str))
