@@ -1,85 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int arr[500001];
-int count[8001];
-
-int compare(const void *a, const void *b)
-{
-    int num1 = *(int *)a;
-    int num2 = *(int *)b;
-
-    if (num1 < num2)
-        return -1;
-    if (num1 > num2)
-        return 1;
-    return 0;
+int num[500000];
+int freq[8001];
+ 
+int maxFind(int* arr, int arrSize) {
+	int maxFind = arr[0];
+	for (int t = 0; t < arrSize; t++) {
+		if (maxFind < arr[t]) maxFind = arr[t];
+	}
+	return maxFind;
 }
-
-int maxFinder(int arr[], int size_arr)
-{
-    int max = arr[0];
-    int i = 0;
-    while (i < size_arr)
-    {
-        if (max < arr[i])
-            max = arr[i];
-        i++;
-    }
-    return max;
+int compare(const void* a, const void* b) {
+	int n = *(int*)a;
+	int m = *(int*)b;
+	if (n < m) return -1;
+	else if (n > m) return 1;
+	else return 0;
 }
-
-int main()
-{
-    int i, n;
-    int sum = 0, mode = 0, flag = 0;
-    scanf("%d", &n);
-    i = 0;
-    while (i < n)
-    {
-        scanf("%d", &arr[i]);
-        sum = sum + arr[i];
-        count[arr[i] + 4000]++;
-        i++;
-    }
-    i = 0;
-    while (i < 8001)
-    {
-        if (maxFinder(count, 8001) == count[i])
-        {
-            flag++;
-        }
-        i++;
-    }
-    i = 0;
-    while (i < 8001)
-    {
-        if (flag == 1)
-        {
-            if (maxFinder(count, 8001) == count[i])
-            {
-                mode = i - 4000;
-                break;
-            }
-        }
-        else
-        {
-            if (maxFinder(count, 8001) == count[i])
-            {
-                if (flag == 0)
-                {
-                    mode = i - 4000;
-                    break;
-                }
-                else
-                    flag = 0;
-            }
-        }
-        i++;
-    }
-    qsort(arr, n, sizeof(int), compare);
-    printf("%.0f\n", sum / (double)n);
-    printf("%d\n", arr[n / 2]);
-    printf("%d\n", mode);
-    printf("%d\n", arr[n - 1] - arr[0]);
+ 
+int main() {
+	int n, i, j;
+	int max;
+	int lev;
+	int sum = 0, temp = 0;
+ 
+	scanf("%d", &n);
+	for (i = 0; i < n; i++) {
+		scanf("%d", &num[i]);
+		sum += num[i];
+		freq[num[i] + 4000]++;
+	}
+	qsort(num, n, sizeof(int), compare);
+	
+	max = maxFind(freq, 8001);
+	for (i = 0; i < 8001; i++) {
+		if (max == freq[i]) temp++;
+	}
+	for (i = 0; i < 8001; i++) {
+		if (temp == 1) {
+			if (max == freq[i]) {
+				lev = i - 4000;
+				break;
+			}
+		}
+		else {
+			if (max == freq[i])
+				if (temp == 0) {
+					lev = i - 4000;
+					break;
+				}
+				else temp = 0;
+		}
+}
+ 
+	printf("%.0f\n", (sum / (double)n));
+	printf("%d\n", num[n / 2]);
+	printf("%d\n", lev);
+	printf("%d\n", num[n - 1] - num[0]);
+	return 0;
 }
