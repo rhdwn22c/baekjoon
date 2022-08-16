@@ -1,102 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
-int compare(const void* first, const void* second)
+int arr[500001];
+int count[8001];
+
+int compare(const void *a, const void *b)
 {
-	int* a = (int*)first;
-	int* b = (int*)second;
+    int num1 = *(int *)a;
+    int num2 = *(int *)b;
 
-	if (*a < *b)
-		return -1;
-	else if (*a > *b)
-		return 1;
-	else
-		return 0;
+    if (num1 < num2)
+        return -1;
+    if (num1 > num2)
+        return 1;
+    return 0;
 }
 
-int arith(int list[], int n)
+int maxFinder(int arr[], int size_arr)
 {
-	double sum = 0;
-
-	for (int i = 0; i < n; i++)
-	{
-		sum += (list[i]);
-	}
-
-	return round(sum / n);
-}
-
-int median(int list[], int n)
-{
-	if (n == 1)
-		return list[0];
-	else
-		return list[(n + 1) / 2 - 1];
-}
-
-int Mode(int list[], int n)
-{
-	int ar[8001] = { 0 };
-	int idx, max = 0, cnt = 0;
-
-	for (int i = 0; i < n; i++)
-	{
-		idx = list[i] + 4000;
-		ar[idx] += 1;
-		
-		if (ar[idx] > max)
-			max = ar[idx];
-	}
-
-	for (int i = 0, idx = 0; i < 8001 ; i++)
-	{
-		if (ar[i] == 0)
-			continue;
-
-		if (ar[i] == max)
-		{
-			if (cnt == 0)
-			{
-				idx = i;
-				cnt += 1;
-			}
-			else if (cnt == 1)
-			{
-				idx = i;
-				break;
-			}
-		}
-	}
-	return idx - 4000;
-
-}
-
-int range(int list[], int n)
-{
-	int max = list[n - 1];
-	int min = list[0];
-
-	return max - min;
+    int max = arr[0];
+    int i = 0;
+    while (i < size_arr)
+    {
+        if (max < arr[i])
+            max = arr[i];
+        i++;
+    }
+    return max;
 }
 
 int main()
 {
-	int n;
-	int* list;
-
-	scanf("%d", &n);
-	list = (int*)calloc(n, sizeof(int));
-
-	for (int i = 0; i < n; i++)
-	{
-		scanf(" %d", &list[i]);
-	}
-	
-	qsort(list, n, sizeof(list[0]), compare);
-
-	printf("%d\n", arith(list, n));
-	printf("%d\n", median(list, n));
-	printf("%d\n", Mode(list, n));
-	printf("%d\n", range(list, n));
+    int i, n;
+    int sum = 0, mode = 0, flag = 0;
+    scanf("%d", &n);
+    i = 0;
+    while (i < n)
+    {
+        scanf("%d", &arr[i]);
+        sum = sum + arr[i];
+        count[arr[i] + 4000]++;
+        i++;
+    }
+    i = 0;
+    while (i < 8001)
+    {
+        if (maxFinder(count, 8001) == count[i])
+        {
+            flag++;
+        }
+        i++;
+    }
+    i = 0;
+    while (i < 8001)
+    {
+        if (flag == 1)
+        {
+            if (maxFinder(count, 8001) == count[i])
+            {
+                mode = i - 4000;
+                break;
+            }
+        }
+        else
+        {
+            if (maxFinder(count, 8001) == count[i])
+            {
+                if (flag == 0)
+                {
+                    mode = i - 4000;
+                    break;
+                }
+                else
+                    flag = 0;
+            }
+        }
+        i++;
+    }
+    qsort(arr, n, sizeof(int), compare);
+    printf("%.0f\n", sum / (double)n);
+    printf("%d\n", arr[n / 2]);
+    printf("%d\n", mode);
+    printf("%d\n", arr[n - 1] - arr[0]);
 }
