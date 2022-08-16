@@ -1,62 +1,55 @@
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 
-int num[500000];
-int freq[8001];
- 
-int maxFind(int* arr, int arrSize) {
-	int maxFind = arr[0];
-	for (int t = 0; t < arrSize; t++) {
-		if (maxFind < arr[t]) maxFind = arr[t];
-	}
-	return maxFind;
-}
-int compare(const void* a, const void* b) {
-	int n = *(int*)a;
-	int m = *(int*)b;
-	if (n < m) return -1;
-	else if (n > m) return 1;
-	else return 0;
-}
- 
-int main() {
-	int n, i, j;
-	int max;
-	int lev;
-	int sum = 0, temp = 0;
- 
-	scanf("%d", &n);
-	for (i = 0; i < n; i++) {
-		scanf("%d", &num[i]);
-		sum += num[i];
-		freq[num[i] + 4000]++;
-	}
-	qsort(num, n, sizeof(int), compare);
-	
-	max = maxFind(freq, 8001);
-	for (i = 0; i < 8001; i++) {
-		if (max == freq[i]) temp++;
-	}
-	for (i = 0; i < 8001; i++) {
-		if (temp == 1) {
-			if (max == freq[i]) {
-				lev = i - 4000;
-				break;
-			}
-		}
-		else {
-			if (max == freq[i])
-				if (temp == 0) {
-					lev = i - 4000;
-					break;
-				}
-				else temp = 0;
-		}
-}
- 
-	printf("%.0f\n", (sum / (double)n));
-	printf("%d\n", num[n / 2]);
-	printf("%d\n", lev);
-	printf("%d\n", num[n - 1] - num[0]);
-	return 0;
+int main(void)
+{
+    int i, j = 0, k = 0, n, num, mid, mode = 0, size; 
+    int sum = 0, max_num = 0;
+
+    scanf("%d", &num);
+    int *arr = (int *)malloc(sizeof(int) * num);
+    int count[8001] = {0};
+    int max[8001] = {0};
+
+    for (i = 0; i < num; i++){
+        scanf("%d", &n);
+        sum = sum + n;
+        max[n + 4000]++;
+    }
+    double avg = round(sum / (double)num);
+
+    for (i = 0; i < 8001; i++){
+        if (max[i] > max_num){                        
+            j = 0;               
+            max_num = max[i];    
+            count[j] = i - 4000; 
+        }
+        else if (max[i] == max_num){                        
+            count[j] = i - 4000; 
+            j++;
+        }
+        if (max[i] > 0){ 
+            while (max[i] > 0){
+                arr[k++] = i - 4000; 
+                max[i]--;
+            }
+        }
+    }
+
+    if (j == 1){ 
+        mode = count[0];
+    }
+    else if (j > 1){ 
+        mode = count[1];
+    }
+
+    mid = arr[(num - 1) / 2];
+    size = arr[num - 1] - arr[0];
+
+    printf("%.f\\n", avg);
+    printf("%d\\n", mid);
+    printf("%d\\n", mode);
+    printf("%d", size);
+    free(arr);
 }
