@@ -13,7 +13,7 @@ int main()
 
 	scanf("%d", &t);
 
-	for (i = 0; i < t; i++)
+	for (i = 0; i < t; ++i)
 	{
 		sign = 1;
 		num = 1;
@@ -21,44 +21,52 @@ int main()
 		scanf("%d %d %d", &n, &a, &b);
 		for (l = 0; l < n; ++l)
 		{
-			arr[x][y] = num++;
-			y += sign;
+			arr[y][x] = num++;
+			x += sign;
 		}
 		x -= 1;
 		for (j = n - 1; j > 0; --j)
 		{
 			for (k = 0; k < j; ++k)
 			{
-				x += sign;
-					arr[x][y] = num++;
+				y += sign;
+				arr[y][x] = num++;
 			}
 			sign *= -1;
 			for (l = 0; l < j; ++l)
 			{
-				y += sign;
-				arr[x][y] = num++;
+				x += sign;
+				arr[y][x] = num++;
 			}
 		}
-		for (j = 0; j < n; j++) {
-			for (k = 0; k < n; k++) {
-				if (arr[k][j] == a) { // 0, 0
-					aX[i] = k; // 0
-					aY[i] = j; // 0
+		for (j = 0; j < n; ++j) {
+			for (k = 0; k < n; ++k) {
+				if (arr[j][k] == a) { // 0, 0
+					aX[i] = j; // 0
+					aY[i] = k; // 0
 				}
-				if (arr[k][j] == b) { // 1, 1
-					bX[i] = k; // 1
-					bY[i] = j; // 1
+				if (arr[j][k] == b) { // 1, 1
+					bX[i] = j; // 1
+					bY[i] = k; // 1
 				}
 			}
 		}
+		/*for (int j = 0; i < n; ++i) {
+			for (int k = 0; k < n; ++k) {
+				printf("%d ", arr[j][k]);
+			}
+			printf("\n");
+		}*/
 	}
 
 
-	for (i = 0; i < t; i++) {
+
+
+	for (i = 0; i < t; ++i) {
 		if (abs(aX[i] - bX[i]) == abs(aY[i] - bY[i])) {
-			printf("%d %d %d %d\n", aX[i],  bX[i], aY[i],  bY[i]);
+			printf("YES\n");
 		}
-		else printf("%d %d %d %d\n", aX[i],  bX[i], aY[i],  bY[i]);
+		else printf("NO\n");
 	}
 	return 0;
 }
